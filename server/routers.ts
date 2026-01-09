@@ -8,6 +8,7 @@ import * as db from "./db";
 import * as crawler from "./crawler";
 import * as aiAnalyzer from "./aiAnalyzer";
 import * as searchCrawler from "./searchCrawler";
+import * as amapService from "./amapService";
 
 // VIP 权限检查中间件
 const vipProcedure = protectedProcedure.use(async ({ ctx, next }) => {
@@ -31,6 +32,59 @@ export const appRouter = router({
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return { success: true } as const;
     }),
+  }),
+
+  // 创新港外卖相关
+  takeout: router({  
+    // 搜索周边商家
+    searchNearby: publicProcedure
+      .input(z.object({
+        keyword: z.string().min(1, '请输入搜索关键字'),
+        category: z.enum(['all', 'restaurant', 'supermarket', 'fruit', 'pharmacy']).default('all'),
+        page: z.number().min(1).default(1),
+      }))
+      .query(async ({ input }) => {
+        let result;
+        
+        switch (input.category) {
+          case 'restaurant':
+            result = await amapService.searchRestaurants(input.keyword, input.page);
+            break;
+          case 'supermarket':
+            result = await amapService.searchSupermarkets(input.keyword, input.page);
+            break;
+          case 'fruit':
+            result = await amapService.searchFruitShops(input.keyword, input.page);
+            break;
+          case 'pharmacy':
+            result = await amapService.searchPharmacies(input.keyword, input.page);
+            break;
+          default:
+            result = await amapService.searchNearbyPOI(input.keyword, undefined, 20000, input.page, 20);
+        }
+
+        // 转换为前端需要的格式
+        const shops = result.pois.map(poi => ({
+          id: poi.id,
+          name: poi.name,
+          address: poi.address,
+          phone: poi.tel || '未提供',
+          distance: poi.distance ? `${Math.round(parseInt(poi.distance))}m` : '未知',
+          rating: poi.rating || '暂无评分',
+          avgPrice: poi.cost || '暂无',
+          category: poi.type,
+          location: poi.location,
+          meituanLink: amapService.generateMeituanLink(poi.name),
+          elemeLink: amapService.generateElemeLink(poi.name),
+        }));
+
+        return {
+          shops,
+          total: result.count,
+          page: input.page,
+          hasMore: result.count > input.page * 20,
+        };
+      }),
   }),
 
   // 商品相关

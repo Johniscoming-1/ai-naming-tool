@@ -5,7 +5,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import TakeoutHome from "./pages/TakeoutHome";
 import ProductDetail from "./pages/ProductDetail";
 import Favorites from "./pages/Favorites";
 import VipGuide from "./pages/VipGuide";
@@ -58,9 +58,7 @@ function Header() {
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/search" component={SearchResults} />
+    <Switch>      <Route path={"/"} component={TakeoutHome} />      <Route path="/search" component={SearchResults} />
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/favorites" component={Favorites} />
       <Route path="/vip" component={VipGuide} />
