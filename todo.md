@@ -103,4 +103,4 @@
 - [x] 诊断 "Failed to fetch" 错误原因
 - [x] 修复搜索 API 错误
 - [x] 测试搜索功能
-- [ ] 推送到 GitHub
+- [x] 推送到 GitHub
