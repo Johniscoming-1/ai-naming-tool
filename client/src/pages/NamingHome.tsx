@@ -228,7 +228,7 @@ export default function NamingHome() {
                     包含详细的五行分析、诗词出处、名字寓意
                   </p>
                   <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-3xl font-bold text-red-600">¥19.9</span>
+                    <span className="text-3xl font-bold text-red-600">￥9.9</span>
                     <span className="text-gray-500 line-through">¥99</span>
                   </div>
                   <Button

@@ -148,29 +148,29 @@ export default function NamingVIP() {
                   支付方式
                 </CardTitle>
                 <CardDescription>
-                  扫描下方二维码支付 ¥19.9，即可解锁 VIP 功能
+                  扫描下方二维码支付 ￥9.9，即可解锁 VIP 功能
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Price */}
                 <div className="text-center py-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-lg">
                   <div className="flex items-center justify-center gap-3 mb-2">
-                    <span className="text-4xl font-bold text-red-600">¥19.9</span>
+                    <span className="text-4xl font-bold text-red-600">￥9.9</span>
                     <span className="text-xl text-gray-500 line-through">¥99</span>
                   </div>
-                  <p className="text-sm text-gray-600">限时特惠，立省 ¥79.1</p>
+                  <p className="text-sm text-gray-600">限时特惠，立省 ￥89.1</p>
                 </div>
 
                 {/* QR Code */}
                 <div className="flex justify-center">
                   <div className="bg-white p-4 rounded-lg shadow-md">
                     <img
-                      src="/alipay-qrcode.jpg"
+                      src="/alipay-qr.jpg"
                       alt="支付宝收款码"
                       className="w-64 h-64 object-contain"
                     />
                     <p className="text-center text-sm text-gray-600 mt-2">
-                      使用支付宝扫码支付 ¥19.9
+                      使用支付宝扫码支付 ￥9.9
                     </p>
                   </div>
                 </div>
