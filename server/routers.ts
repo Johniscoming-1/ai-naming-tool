@@ -9,6 +9,7 @@ import * as crawler from "./crawler";
 import * as aiAnalyzer from "./aiAnalyzer";
 import * as searchCrawler from "./searchCrawler";
 import * as amapService from "./amapService";
+import { generateNamesFree, generateNamesVIP, type NamingRequest } from "./namingService";
 
 // VIP 权限检查中间件
 const vipProcedure = protectedProcedure.use(async ({ ctx, next }) => {
@@ -324,6 +325,42 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.deactivatePriceAlert(input.alertId);
         return { success: true };
+      }),
+  }),
+
+  // AI 起名功能
+  naming: router({
+    // 免费版：生成 5 个名字
+    generateFree: publicProcedure
+      .input(
+        z.object({
+          surname: z.string().min(1).max(2),
+          gender: z.enum(["male", "female", "neutral"]).optional(),
+          birthDate: z.string().optional(),
+          preferences: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const names = await generateNamesFree(input as NamingRequest);
+        return { names };
+      }),
+
+    // VIP 版：生成 50 个名字
+    generateVIP: publicProcedure
+      .input(
+        z.object({
+          surname: z.string().min(1).max(2),
+          gender: z.enum(["male", "female", "neutral"]).optional(),
+          birthDate: z.string().optional(),
+          preferences: z.string().optional(),
+          paymentProof: z.string(), // 支付凭证
+        })
+      )
+      .mutation(async ({ input }) => {
+        // TODO: 验证支付凭证
+        const { paymentProof, ...namingRequest } = input;
+        const names = await generateNamesVIP(namingRequest as NamingRequest);
+        return { names, paymentVerified: true };
       }),
   }),
 });
