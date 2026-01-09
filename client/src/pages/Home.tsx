@@ -9,7 +9,7 @@ import { useLocation } from "wouter";
 import { toast } from "sonner";
 
 export default function Home() {
-  const [url, setUrl] = useState("");
+  const [input, setInput] = useState("");
   const [, setLocation] = useLocation();
   
   const parseMutation = trpc.product.parse.useMutation({
@@ -24,11 +24,21 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url.trim()) {
-      toast.error("请输入商品链接");
+    if (!input.trim()) {
+      toast.error("请输入商品名称或链接");
       return;
     }
-    parseMutation.mutate({ url: url.trim() });
+    
+    const trimmedInput = input.trim();
+    // 判断是 URL 还是关键字
+    const isUrl = trimmedInput.startsWith('http://') || trimmedInput.startsWith('https://');
+    
+    if (isUrl) {
+      parseMutation.mutate({ url: trimmedInput });
+    } else {
+      // 跳转到搜索结果页
+      setLocation(`/search?q=${encodeURIComponent(trimmedInput)}`);
+    }
   };
 
   return (
@@ -57,10 +67,10 @@ export default function Home() {
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="flex gap-2">
               <Input
-                type="url"
-                placeholder="粘贴商品链接（支持京东、淘宝、拼多多、抖音、美团）"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                type="text"
+                placeholder="输入商品名称或粘贴商品链接（支持京东、淘宝、拼多多、抖音、美团）"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
                 className="flex-1 h-12 text-base"
                 disabled={parseMutation.isPending}
               />

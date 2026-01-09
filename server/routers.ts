@@ -34,6 +34,18 @@ export const appRouter = router({
 
   // 商品相关
   product: router({
+    // 搜索商品（关键字模糊搜索）
+    search: publicProcedure
+      .input(z.object({
+        keyword: z.string().min(1, '请输入搜索关键字'),
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(50).default(20),
+      }))
+      .query(async ({ input }) => {
+        const results = await db.searchProducts(input.keyword, input.page, input.pageSize);
+        return results;
+      }),
+
     // 解析商品链接
     parse: publicProcedure
       .input(z.object({ url: z.string().url() }))

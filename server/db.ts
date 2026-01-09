@@ -1,4 +1,4 @@
-import { eq, and, desc, gte, sql } from "drizzle-orm";
+import { eq, and, desc, gte, like, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, users, 
@@ -319,4 +319,39 @@ export async function getLatestAiAnalysis(productId: number) {
     .limit(1);
   
   return result.length > 0 ? result[0] : undefined;
+}
+
+// ==================== 商品搜索 ====================
+
+export async function searchProducts(keyword: string, page: number = 1, pageSize: number = 20) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot search products: database not available");
+  }
+
+  const offset = (page - 1) * pageSize;
+  
+  // 模糊搜索商品标题
+  const results = await db
+    .select()
+    .from(products)
+    .where(like(products.title, `%${keyword}%`))
+    .limit(pageSize)
+    .offset(offset);
+
+  // 统计总数
+  const countResult = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(products)
+    .where(like(products.title, `%${keyword}%`));
+  
+  const total = countResult[0]?.count || 0;
+
+  return {
+    products: results,
+    total,
+    page,
+    pageSize,
+    hasMore: offset + results.length < total,
+  };
 }

@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import Favorites from "./pages/Favorites";
 import VipGuide from "./pages/VipGuide";
+import SearchResults from "./pages/SearchResults";
 import { Heart, Home as HomeIcon } from "lucide-react";
 import { useAuth } from "./_core/hooks/useAuth";
 import { getLoginUrl } from "./const";
@@ -80,6 +81,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/search" component={SearchResults} />
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/favorites" component={Favorites} />
       <Route path="/vip" component={VipGuide} />
