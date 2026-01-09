@@ -6,13 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Heart, ExternalLink, TrendingDown, TrendingUp } from "lucide-react";
 import { useLocation } from "wouter";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 import { toast } from "sonner";
 
 export default function Favorites() {
   const [, setLocation] = useLocation();
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = false; // 移除登录功能
 
   const { data: favorites, isLoading } = trpc.favorite.list.useQuery(
     undefined,
@@ -73,9 +72,7 @@ export default function Favorites() {
           <h1 className="text-3xl font-bold mb-2">我的收藏</h1>
           <p className="text-muted-foreground">
             共 {favoriteCount} 个商品
-            {!isAuthenticated && favoriteCount > 0 && (
-              <span className="ml-2 text-primary text-sm">（本地收藏，登录后可同步）</span>
-            )}
+
           </p>
         </div>
 

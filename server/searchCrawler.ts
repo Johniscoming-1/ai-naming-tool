@@ -90,7 +90,11 @@ function detectCategory(keyword: string): string[] {
   
   // 外卖相关
   if (kw.includes('外卖') || kw.includes('美食') || kw.includes('餐饮') ||
-      kw.includes('快餐') || kw.includes('火锅') || kw.includes('奶茶')) {
+      kw.includes('快餐') || kw.includes('火锅') || kw.includes('奶茶') ||
+      kw.includes('肯德基') || kw.includes('kfc') || kw.includes('麦当劳') || kw.includes('mcdonald') ||
+      kw.includes('必胜客') || kw.includes('汉堡王') || kw.includes('喜茶') || kw.includes('星巴克') ||
+      kw.includes('海底捞') || kw.includes('黄焦鸡') || kw.includes('鸡翅') || kw.includes('烧烤') ||
+      kw.includes('麦当劳') || kw.includes('德克士')) {
     categories.push('food');
   }
   
@@ -229,47 +233,143 @@ function generateProductsByCategory(keyword: string, category: string): SearchPr
       break;
       
     case 'food':
-      products.push(
-        {
-          platform: 'meituan',
-          productId: `mt-${Date.now()}-8`,
-          productUrl: 'https://www.meituan.com/deal/123456',
-          title: `海底捞火锅 ${keyword} 双人套餐`,
-          imageUrl: 'https://p0.meituan.net/placeholder.jpg',
-          currentPrice: '168.00',
-          originalPrice: '298.00',
-          shop: '海底捞火锅(万达店)',
-          category: '美食外卖',
-          sales: 5000,
-          rating: 4.7,
-        },
-        {
-          platform: 'meituan',
-          productId: `mt-${Date.now()}-9`,
-          productUrl: 'https://www.meituan.com/deal/123457',
-          title: `喜茶 ${keyword} 多肉葡萄`,
-          imageUrl: 'https://p0.meituan.net/placeholder2.jpg',
-          currentPrice: '19.90',
-          originalPrice: '25.00',
-          shop: '喜茶(国贸店)',
-          category: '美食外卖',
-          sales: 10000,
-          rating: 4.8,
-        },
-        {
-          platform: 'douyin',
-          productId: `dy-${Date.now()}-10`,
-          productUrl: 'https://www.douyin.com/product/123456',
-          title: `麦当劳 ${keyword} 超值套餐`,
-          imageUrl: 'https://p3.douyinpic.com/placeholder.jpg',
-          currentPrice: '29.90',
-          originalPrice: '45.00',
-          shop: '麦当劳(中关村店)',
-          category: '美食外卖',
-          sales: 8000,
-          rating: 4.6,
-        }
-      );
+      // 根据关键词生成对应的餐饮商品
+      const kw = keyword.toLowerCase();
+      
+      if (kw.includes('肯德基') || kw.includes('kfc')) {
+        products.push(
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-1`,
+            productUrl: 'https://www.meituan.com/deal/kfc001',
+            title: '肯德基 香辣鸡腿堡套餐',
+            imageUrl: 'https://p0.meituan.net/kfc-burger.jpg',
+            currentPrice: '39.90',
+            originalPrice: '59.00',
+            shop: '肯德基(国贸店)',
+            category: '美食外卖',
+            sales: 15000,
+            rating: 4.8,
+          },
+          {
+            platform: 'douyin',
+            productId: `dy-${Date.now()}-2`,
+            productUrl: 'https://www.douyin.com/product/kfc002',
+            title: '肯德基 全家桶大分享',
+            imageUrl: 'https://p3.douyinpic.com/kfc-bucket.jpg',
+            currentPrice: '99.00',
+            originalPrice: '139.00',
+            shop: '肯德基(万达店)',
+            category: '美食外卖',
+            sales: 12000,
+            rating: 4.7,
+          },
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-3`,
+            productUrl: 'https://www.meituan.com/deal/kfc003',
+            title: '肯德基 早餐粉粥套餐',
+            imageUrl: 'https://p0.meituan.net/kfc-breakfast.jpg',
+            currentPrice: '19.90',
+            originalPrice: '29.00',
+            shop: '肯德基(朝阳店)',
+            category: '美食外卖',
+            sales: 8000,
+            rating: 4.6,
+          }
+        );
+      } else if (kw.includes('麦当劳') || kw.includes('mcdonald')) {
+        products.push(
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-4`,
+            productUrl: 'https://www.meituan.com/deal/mcd001',
+            title: '麦当劳 巨无霸套餐',
+            imageUrl: 'https://p0.meituan.net/mcd-bigmac.jpg',
+            currentPrice: '35.00',
+            originalPrice: '49.00',
+            shop: '麦当劳(中关村店)',
+            category: '美食外卖',
+            sales: 18000,
+            rating: 4.7,
+          },
+          {
+            platform: 'douyin',
+            productId: `dy-${Date.now()}-5`,
+            productUrl: 'https://www.douyin.com/product/mcd002',
+            title: '麦当劳 麦乐鸡分享餐',
+            imageUrl: 'https://p3.douyinpic.com/mcd-chicken.jpg',
+            currentPrice: '89.00',
+            originalPrice: '119.00',
+            shop: '麦当劳(朝阳店)',
+            category: '美食外卖',
+            sales: 10000,
+            rating: 4.8,
+          }
+        );
+      } else if (kw.includes('海底捞') || kw.includes('火锅')) {
+        products.push(
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-6`,
+            productUrl: 'https://www.meituan.com/deal/hdl001',
+            title: '海底捞火锅 双人套餐',
+            imageUrl: 'https://p0.meituan.net/hdl-hotpot.jpg',
+            currentPrice: '168.00',
+            originalPrice: '298.00',
+            shop: '海底捞火锅(万达店)',
+            category: '美食外卖',
+            sales: 5000,
+            rating: 4.9,
+          }
+        );
+      } else if (kw.includes('喜茶') || kw.includes('奶茶')) {
+        products.push(
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-7`,
+            productUrl: 'https://www.meituan.com/deal/heytea001',
+            title: '喜茶 多肉葡萄',
+            imageUrl: 'https://p0.meituan.net/heytea-grape.jpg',
+            currentPrice: '19.90',
+            originalPrice: '25.00',
+            shop: '喜茶(国贸店)',
+            category: '美食外卖',
+            sales: 10000,
+            rating: 4.8,
+          }
+        );
+      } else {
+        // 通用外卖商品
+        products.push(
+          {
+            platform: 'meituan',
+            productId: `mt-${Date.now()}-8`,
+            productUrl: 'https://www.meituan.com/deal/123456',
+            title: `${keyword} - 美团外卖精选`,
+            imageUrl: 'https://p0.meituan.net/placeholder.jpg',
+            currentPrice: '29.90',
+            originalPrice: '49.00',
+            shop: '美团精选',
+            category: '美食外卖',
+            sales: 5000,
+            rating: 4.5,
+          },
+          {
+            platform: 'douyin',
+            productId: `dy-${Date.now()}-9`,
+            productUrl: 'https://www.douyin.com/product/123456',
+            title: `${keyword} - 抖音团购`,
+            imageUrl: 'https://p3.douyinpic.com/placeholder.jpg',
+            currentPrice: '25.00',
+            originalPrice: '39.00',
+            shop: '抖音团购',
+            category: '美食外卖',
+            sales: 3000,
+            rating: 4.4,
+          }
+        );
+      }
       break;
       
     case 'hotel':

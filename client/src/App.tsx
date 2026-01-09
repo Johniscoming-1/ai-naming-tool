@@ -11,12 +11,10 @@ import Favorites from "./pages/Favorites";
 import VipGuide from "./pages/VipGuide";
 import SearchResults from "./pages/SearchResults";
 import { Heart, Home as HomeIcon } from "lucide-react";
-import { useAuth } from "./_core/hooks/useAuth";
-import { getLoginUrl } from "./const";
+
 
 function Header() {
   const [location, setLocation] = useLocation();
-  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,38 +37,19 @@ function Header() {
               <HomeIcon className="w-4 h-4 mr-2" />
               首页
             </Button>
-            {isAuthenticated && (
-              <Button
-                variant={location === "/favorites" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setLocation("/favorites")}
-              >
-                <Heart className="w-4 h-4 mr-2" />
-                我的收藏
-              </Button>
-            )}
+            <Button
+              variant={location === "/favorites" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setLocation("/favorites")}
+            >
+              <Heart className="w-4 h-4 mr-2" />
+              我的收藏
+            </Button>
           </nav>
         </div>
 
         <div className="flex items-center gap-3">
-          {isAuthenticated ? (
-            <>
-              <span className="text-sm text-muted-foreground hidden sm:inline">
-                {user?.name || user?.email || "用户"}
-              </span>
-              <Button variant="outline" size="sm" onClick={() => logout()}>
-                退出登录
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant="default"
-              size="sm"
-              onClick={() => window.location.href = getLoginUrl()}
-            >
-              登录
-            </Button>
-          )}
+
         </div>
       </div>
     </header>

@@ -13,14 +13,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { toast } from "sonner";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 import { Streamdown } from "streamdown";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
-  const { user, isAuthenticated } = useAuth();
+  const isAuthenticated = false; // 移除登录功能
   const productId = parseInt(id || "0");
 
   // 查询商品信息
@@ -80,7 +79,7 @@ export default function ProductDetail() {
         toast.success("已取消收藏");
       } else {
         favorites.push(productId);
-        toast.success("收藏成功！登录后可同步到云端");
+        toast.success("收藏成功！");
       }
       
       localStorage.setItem('guestFavorites', JSON.stringify(favorites));
